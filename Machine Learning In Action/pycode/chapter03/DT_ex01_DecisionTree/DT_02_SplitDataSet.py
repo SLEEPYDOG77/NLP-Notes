@@ -53,13 +53,16 @@ class Trees(object):
     def splitDataSet(self, dataSet, axis, value):
         """
         按照给定特征划分数据集
-        :param dataSet:
-        :param axis:
-        :param value:
+        :param dataSet: 待划分的数据集
+        :param axis: 划分数据集的特征
+        :param value: 需要返回的特征的值
         :return:
         """
+
+        # 创建新的list对象
         retDataSet = []
         for featVec in dataSet:
+            # 抽取
             if featVec[axis] == value:
                 reducedFeatVec = featVec[:axis]
                 reducedFeatVec.extend(featVec[axis+1:])
@@ -70,6 +73,8 @@ class Trees(object):
 if __name__ == "__main__":
     trees = Trees()
     myDat, labels = trees.createDataSet()
+    print(trees.splitDataSet(myDat, 0, 1))
+    print(trees.splitDataSet(myDat, 0, 0))
     # print("myDat")
     # print(myDat)
     #
