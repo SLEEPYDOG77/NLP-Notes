@@ -1,9 +1,11 @@
 # -*- coding:UTF-8 -*-
 
 # author: Zhang Jiaqi
-# datetime:2021/9/29 19:28
+# datetime:2021/9/30 16:00
 # software:PyCharm
+
 from math import log
+import operator
 
 class Trees(object):
     def __init__(self):
@@ -96,11 +98,64 @@ class Trees(object):
         return bestFeature
 
 
+    def majorityCnt(self, classList):
+        """
+        返回出现此处最多的分类名称
+        :param classList:
+        :return:
+        """
+        classCount = {}
+        for vote in classList:
+            if vote not in classCount.keys():
+                classCount[vote] = 0
+            classCount[vote] += 1
+        sortedClassCount = sorted(classCount.items(), key=operator.itemgetter(1), reverse=True)
+        return sortedClassCount[0][0]
+
+    def createTree(self, dataSet, labels):
+        """
+        创建决策树
+        :param dataSet: 数据集
+        :param labels: 标签列表
+        :return:
+        """
+        # 递归函数的两个停止条件：
+        # 1. 所有的类标签完全相同
+        # 2. 使用完了所有特征，仍然不能将数据集划分成仅包含唯一类别的分组2
+        classList = [example[-1] for example in dataSet]
+        # 类别完全相同则停止继续划分
+        if classList.count(classList[0]) == len(classList):
+            return classList[0]
+
+        # 遍历完所有特征时返回出现次数最多的类别
+        if len(dataSet[0]) == 1:
+            return self.majorityCnt(classList=classList)
+
+        bestFeat = self.chooseBestFeatureToSplit(dataSet=dataSet)
+        bestFeatLabel = labels[bestFeat]
+
+        # 字典类型存储树
+        myTree = {bestFeatLabel: {}}
+
+        del(labels[bestFeat])
+
+        # 得到列表包含的所有属性值
+        featValues = [example[bestFeat] for example in dataSet]
+        uniqueVals = set(featValues)
+        for value in uniqueVals:
+            subLabels = labels[:]
+            myTree[bestFeatLabel][value] = self.createTree(self.splitDataSet(dataSet, bestFeat, value), subLabels)
+
+        return myTree
+
+
+
 if __name__ == "__main__":
     trees = Trees()
     myDat, labels = trees.createDataSet()
-    print(trees.chooseBestFeatureToSplit(myDat))
-    print(myDat)
+
+    myTree = trees.createTree(myDat, labels)
+    print(myTree)
 
 
 
