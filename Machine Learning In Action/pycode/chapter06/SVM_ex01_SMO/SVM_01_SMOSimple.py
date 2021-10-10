@@ -23,9 +23,10 @@ class SMO(object):
             labelMat.append(float(lineArr[2]))
         return dataMat, labelMat
 
+
     def selectJrand(self, i, m):
         """
-
+        只要函数值不等于输入值i，函数就会进行随机选择
         :param i: 第一个alpha的下标
         :param m: 所有alpha的数目
         :return:
@@ -34,6 +35,7 @@ class SMO(object):
         while j == i:
             j = int(random.uniform(0, m))
         return j
+
 
     def clipAlpha(self, aj, H, L):
         """
@@ -48,6 +50,7 @@ class SMO(object):
         if L > aj:
             aj = L
         return aj
+
 
     def smoSimple(self, dataMatIn, classLabels, C, toler, maxIter):
         """
@@ -136,8 +139,6 @@ class SMO(object):
                 iter = 0
             print("iteration number: %d" % iter)
         return b, alphas
-
-
 
 
 

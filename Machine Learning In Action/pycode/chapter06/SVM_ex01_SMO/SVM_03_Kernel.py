@@ -1,14 +1,35 @@
 # -*- coding:UTF-8 -*-
 
 # author: Zhang Jiaqi
-# datetime:2021/10/8 14:27
+# datetime:2021/10/10 9:59
 # software:PyCharm
 
 import numpy as np
 import random
 
+def kernelTrans(X, A, kTup):
+    """
+    核转换函数
+    :param X:
+    :param A:
+    :param kTup:
+    :return:
+    """
+    m, n = np.shape(X)
+    K = np.mat(np.zeros((m, 1)))
+    if kTup[0] == 'lin':
+        K = X * A.T
+    elif kTup[0] == 'rbf':
+        for j in range(m):
+            deltaRow = X[j, :] - A
+            K[j] = deltaRow * deltaRow.T
+        K = np.exp(K / (-1 * kTup[1]**2))
+    else:
+        raise NameError('Houston We Have a Problem -- That Kernel is not Recognized')
+    return K
+
 class optStruct(object):
-    def __init__(self, dataMatIn, classLabels, C, toler):
+    def __init__(self, dataMatIn, classLabels, C, toler, kTup):
         self.X = dataMatIn
         self.labelMat = classLabels
         self.C = C
@@ -20,6 +41,10 @@ class optStruct(object):
         # 第一列是eCache是否有效的标志位
         # 第二列给出的是实际的E值
         self.eCache = np.mat(np.zeros((self.m, 2)))
+        self.K = np.mat(np.zeros((self.m, self.n)))
+        for i in range(self.m):
+            self.K[:, i] = kernelTrans(self.X, self.X[i, :], kTup)
+
 
 class SVM(object):
     def __init__(self):
@@ -69,7 +94,7 @@ class SVM(object):
 
 
     def calcEk(self, oS, k):
-        fXk = float(np.multiply(oS.alphas, oS.labelMat).T * (oS.X * oS.X[k, :].T)) + oS.b
+        fXk = float(np.multiply(oS.alphas, oS.labelMat).T * oS.K[:, k] + oS.b)
         Ek = fXk - float(oS.labelMat[k])
         return Ek
 
@@ -135,7 +160,9 @@ class SVM(object):
                 print("L==H")
                 return 0
 
-            eta = 2.0 * oS.X[i, :] * oS.X[j, :].T - oS.X[i, :] * oS.X[i, :].T - oS.X[j, :] * oS.X[j, :].T
+            # eta = 2.0 * oS.X[i, :] * oS.X[j, :].T - oS.X[i, :] * oS.X[i, :].T - oS.X[j, :] * oS.X[j, :].T
+            eta = 2.0 * oS.K[i, j] - oS.K[i, i] - oS.K[j, j]
+
             if eta >= 0:
                 print("eta >= 0")
                 return 0
@@ -151,13 +178,19 @@ class SVM(object):
             oS.alphas[i] += oS.labelMat[j] * oS.labelMat[i] * (alphaJold - oS.alphas[j])
             self.updateEk(oS, i)
 
-            b1 = oS.b - Ei - oS.labelMat[i] * (oS.alphas[i] - alphaIold) * \
-                oS.X[i, :] * oS.X[i, :].T - oS.labelMat[j] * \
-                (oS.alphas[j] - alphaJold) * oS.X[i, :] * oS.X[j, :].T
+            # b1 = oS.b - Ei - oS.labelMat[i] * (oS.alphas[i] - alphaIold) * \
+            #     oS.X[i, :] * oS.X[i, :].T - oS.labelMat[j] * \
+            #     (oS.alphas[j] - alphaJold) * oS.X[i, :] * oS.X[j, :].T
+            #
+            # b2 = oS.b - Ej - oS.labelMat[i] * (oS.alphas[i] - alphaIold) * \
+            #     oS.X[i, :] * oS.X[j, :].T - oS.labelMat[j] * \
+            #     (oS.alphas[j] - alphaJold) * oS.X[j, :] * oS.X[j, :].T
 
-            b2 = oS.b - Ej - oS.labelMat[i] * (oS.alphas[i] - alphaIold) * \
-                oS.X[i, :] * oS.X[j, :].T - oS.labelMat[j] * \
-                (oS.alphas[j] - alphaJold) * oS.X[j, :] * oS.X[j, :].T
+            b1 = oS.b - Ei - oS.labelMat[i] * (oS.alphas[i] - alphaIold) * oS.K[i, i] - \
+                oS.labelMat[j] * (oS.alphas[j] - alphaJold) * oS.K[i, j]
+
+            b2 = oS.b - Ej - oS.labelMat[i] * (oS.alphas[i] - alphaIold) * oS.K[i, j] - \
+                oS.labelMat[j] * (oS.alphas[j] - alphaJold) * oS.K[j, j]
 
             if (0 < oS.alphas[i]) and (oS.C > oS.alphas[i]):
                 oS.b = b1
@@ -222,8 +255,8 @@ class SVM(object):
 
 if __name__ == "__main__":
     svm = SVM()
-    dataArr, labelArr = svm.loadDataSet('testSet.txt')
-    b, alphas = svm.smoP(dataArr, labelArr, 0.6, 0.001, 40)
+    # dataArr, labelArr = svm.loadDataSet('testSet.txt')
+    # b, alphas = svm.smoP(dataArr, labelArr, 0.6, 0.001, 40)
 
 
 
