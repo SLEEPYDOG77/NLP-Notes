@@ -252,6 +252,48 @@ class SVM(object):
             w += np.multiply(alphas[i] * labelMat[i], X[i, :].T)
         return w
 
+    def testRbf(self, k1=1.3):
+        dataArr, labelArr = self.loadDataSet('testSetRBF.txt')
+        b, alphas = self.smoP(dataArr, labelArr, 200, 0.0001, 1000, ('rbf', k1))
+        dataMat = np.mat(dataArr)
+        labelMat = np.mat(labelArr).transpose()
+        svInd = np.nonzero(alphas.A > 0)[0]
+
+        # 构建支持向量矩阵
+        sVs = dataMat[svInd]
+        labelSV = labelMat[svInd]
+
+        print("there are %d Support Vectors" % np.shape(sVs)[0])
+        m, n = np.shape(dataMat)
+
+        errorCount = 0
+        for i in range(m):
+            # 利用kernelTrans函数得到转换后的数据
+            kernelEval = kernelTrans(sVs, dataMat[i, :], ('rbf', k1))
+            # 再用其与前面的alpha及类别标签值求积
+            predict = kernelEval.T * np.multiply(labelSV, alphas[svInd]) + b
+            if np.sign(predict) != np.sign(labelArr[i]):
+                errorCount += 1
+
+        print("the training error rate is: %f" % (float(errorCount) / m))
+
+
+        dataArr, labelArr = self.loadDataSet('testSetRBF2.txt')
+        errorCount = 0
+        dataMat = np.mat(dataArr)
+        labelMat = np.mat(labelArr).transpose()
+        m, n = np.shape(dataMat)
+
+        for i in range(m):
+            kernelEval = kernelTrans(sVs, dataMat[i, :], ('rbf', k1))
+            predict = kernelEval.T * np.multiply(labelSV, alphas[svInd]) + b
+            if np.sign(predict) != np.sign(labelArr[i]):
+                errorCount += 1
+        print("the test error rate is: %f" % (float(errorCount) / m))
+
+
+
+
 
 if __name__ == "__main__":
     svm = SVM()
