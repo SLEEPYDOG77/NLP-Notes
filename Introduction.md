@@ -1,6 +1,6 @@
 
 
-### 包括
+### 自然语言处理
 
 - 词法分析
   - 分词 (Word Segmentation/Tokenization, `WS`)
@@ -41,6 +41,24 @@
   - 对话系统 (Dialogue System, DS)
   - 阅读理解 (Reading Comprehension, RC)
   - 自动文章分级 (Automatic Essay Grading, AEG)
+
+### 
+
+### 自然语言生成
+
+- 从输入信息形态的角度
+  - 文本到文本（Text-to-Text）
+  - 数据到文本（Data-to-Text）
+  - 抽象意义表示到文本（Meaning-to-Text）
+  - 多模态到文本（Multimodality-to-Text）
+  - 无约束文本（Zero-to-Text）
+- 从输入-输出信息变换的维度
+  - 开放端语言生成（Open-ended Language Generation）
+  - 非开放端语言生成（Non-open-ended Language Generation）
+
+
+
+
 
 
 
