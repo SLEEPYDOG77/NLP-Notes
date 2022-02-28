@@ -5,6 +5,8 @@
 # software:PyCharm
 
 import numpy as np
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Activation
 from tensorflow.keras.optimizers import SGD
