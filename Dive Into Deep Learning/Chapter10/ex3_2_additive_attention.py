@@ -4,10 +4,9 @@
 # @File    : ex3_2_additive_attention.py
 # @Description:
 
-import math
-import torch
-from torch import nn
-from d2l import sequence_mask, masked_softmax, show_heatmaps
+from d2l.torch import nn
+from d2l import masked_softmax, show_heatmaps, torch
+
 
 #@save
 class AdditiveAttention(nn.Module):

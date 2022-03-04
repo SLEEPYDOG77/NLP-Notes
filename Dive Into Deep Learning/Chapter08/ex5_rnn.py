@@ -4,11 +4,8 @@
 # @File    : ex5_rnn.py
 # @Description: 循环神经网络的从零开始实现
 
-import math
-import torch
-from torch import nn
-from torch.nn import functional as F
-from d2l import torch as d2l
+from d2l.torch import functional as F
+from d2l import torch
 from d2l import load_data_time_machine
 from d2l import try_gpu
 
@@ -31,7 +28,7 @@ def get_params(vocab_size, num_hiddens, device):
     return params
 
 def init_rnn_state(batch_size, num_hiddens, device):
-    return (torch.zeros((batch_size, num_hiddens), device=device), )
+    return (torch.zeros((batch_size, num_hiddens), device=device),)
 
 def rnn(inputs, state, params):
     # inputs的形状：(时间步数量，批量大小，词表大小)

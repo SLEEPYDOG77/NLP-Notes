@@ -5,9 +5,9 @@
 # @Description:
 
 import random
-from d2l import read_time_machine
+from d2l import read_time_machine, torch
 from d2l import tokenize, Vocab
-import torch
+
 
 # 8.3.3 自然语言统计
 def get_tokens():

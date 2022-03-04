@@ -6,9 +6,8 @@
 # description: BERT
 # reference: https://zh-v2.d2l.ai/chapter_natural-language-processing-pretraining/bert.html
 
-import torch
-from torch import nn
-from d2l import torch as d2l
+from d2l.torch import nn
+from d2l import torch
 from d2l import EncoderBlock
 
 def get_tokens_and_segments(tokens_a, tokens_b=None):

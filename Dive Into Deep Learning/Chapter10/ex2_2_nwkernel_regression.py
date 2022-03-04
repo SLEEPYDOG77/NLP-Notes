@@ -4,12 +4,12 @@
 # @File    : ex2_2_nwkernel_regression.py
 # @Description:
 
-import torch
-from torch import nn
-from d2l import Animator, plt, plot
+from d2l.torch import nn
+from d2l import Animator, plt, plot, torch
+
 
 def f(x):
-    return 2 * torch.sin(x) + x**0.8
+    return 2 * torch.sin(x) + x ** 0.8
 
 
 def plot_kernel_reg(x_train, y_train, x_test, y_truth, y_hat):

@@ -4,9 +4,8 @@
 # datetime:2022/2/28 10:41
 # software:PyCharm
 
-import torch
-from torch import nn
-from d2l import torch as d2l
+from d2l.torch import nn
+from d2l import torch as d2l, torch
 import matplotlib.pyplot as plt
 from d2l import load_array
 

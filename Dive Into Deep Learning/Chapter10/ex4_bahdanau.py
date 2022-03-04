@@ -4,9 +4,8 @@
 # @File    : ex4_bahdanau.py
 # @Description:
 
-import torch
-from torch import nn
-from d2l import torch as d2l
+from d2l.torch import nn
+from d2l import torch
 from d2l import Seq2SeqEncoder, AdditiveAttention, Decoder
 
 class AttentionDecoder(Decoder):

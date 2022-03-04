@@ -4,8 +4,9 @@
 # @File    : position_encoding.py
 # @Description:
 
-from torch import nn
-import torch
+from d2l.torch import nn
+from d2l import torch
+
 
 # 位置编码
 class PositionalEncoding(nn.Module):

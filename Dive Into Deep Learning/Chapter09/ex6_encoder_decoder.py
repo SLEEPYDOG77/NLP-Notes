@@ -4,7 +4,7 @@
 # @File    : ex6_encoder_decoder.py
 # @Description: 编码器-解码器架构
 
-from torch import nn
+from d2l.torch import nn
 
 
 #@save

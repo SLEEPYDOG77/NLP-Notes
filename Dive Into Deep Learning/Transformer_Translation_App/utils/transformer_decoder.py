@@ -5,9 +5,8 @@
 # @Description:
 
 import math
-import torch
-from torch import nn
-from d2l import MultiHeadAttention, PositionalEncoding, AttentionDecoder
+from d2l.torch import nn
+from d2l import MultiHeadAttention, PositionalEncoding, AttentionDecoder, torch
 from utils.add_norm import AddNorm
 from utils.position_wise_fnn import PositionWiseFFN
 

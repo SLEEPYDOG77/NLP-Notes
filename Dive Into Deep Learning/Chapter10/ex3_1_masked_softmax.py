@@ -4,10 +4,9 @@
 # @File    : ex3_1_masked_softmax.py
 # @Description:
 
-import math
-import torch
-from torch import nn
-from d2l import sequence_mask
+from d2l.torch import nn
+from d2l import sequence_mask, torch
+
 
 #@save
 def masked_softmax(X, valid_lens):

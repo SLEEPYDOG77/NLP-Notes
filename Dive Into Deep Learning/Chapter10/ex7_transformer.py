@@ -5,10 +5,8 @@
 # @Description:
 
 import math
-import pandas as pd
-import torch
-from torch import nn
-from d2l import torch as d2l
+from d2l.torch import nn
+from d2l import torch
 from d2l import try_gpu, load_data_nmt, EncoderDecoder, train_seq2seq, \
     MultiHeadAttention, Encoder, PositionalEncoding, AttentionDecoder
 

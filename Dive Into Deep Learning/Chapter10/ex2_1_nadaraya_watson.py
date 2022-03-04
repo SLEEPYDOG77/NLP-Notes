@@ -5,16 +5,15 @@
 # @Description: Nadaraya-Watson核回归
 
 
-import torch
-from torch import nn
-from d2l import torch as d2l
+from d2l.torch import nn
+from d2l import torch
 from d2l import plot, plt, show_heatmaps
 
 n_train = 50  # 训练样本数
 x_train, _ = torch.sort(torch.rand(n_train) * 5)   # 排序后的训练样本
 
 def f(x):
-    return 2 * torch.sin(x) + x**0.8
+    return 2 * torch.sin(x) + x ** 0.8
 
 y_train = f(x_train) + torch.normal(0.0, 0.5, (n_train,))  # 训练样本的输出
 x_test = torch.arange(0, 5, 0.1)  # 测试样本

@@ -5,8 +5,7 @@
 # @Description: 机器翻译与数据集
 
 import os
-import torch
-from d2l import torch as d2l
+from d2l import torch
 from d2l import DATA_HUB, DATA_URL, download_extract, Vocab, load_array
 
 DATA_HUB['fra-eng'] = (DATA_URL + 'fra-eng.zip', '94646ad1522d915e7b0f9296181140edcf86a4f5')

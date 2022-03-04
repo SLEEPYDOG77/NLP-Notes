@@ -5,11 +5,9 @@
 # @Description: 序列到序列学习（seq2seq）
 
 
-import collections
-import math
-import torch
-from torch import nn
-from d2l import torch as d2l
+from d2l.torch import nn
+from d2l import torch as d2l, torch
+
 
 #@save
 class Seq2SeqEncoder(d2l.Encoder):

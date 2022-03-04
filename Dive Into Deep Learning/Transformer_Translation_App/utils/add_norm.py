@@ -4,7 +4,7 @@
 # @File    : add_norm.py
 # @Description:
 
-from torch import nn
+from d2l.torch import nn
 
 # 残差连接和层规范化
 class AddNorm(nn.Module):

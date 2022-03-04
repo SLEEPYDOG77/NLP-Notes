@@ -4,7 +4,7 @@
 # @File    : position_wise_fnn.py
 # @Description:
 
-from torch import nn
+from d2l.torch import nn
 
 # 基于位置的前馈网络
 class PositionWiseFFN(nn.Module):

@@ -4,11 +4,9 @@
 # @File    : ex6_self_attention.py
 # @Description:
 
-import math
-import torch
-from torch import nn
-from d2l import torch as d2l
-from d2l import MultiHeadAttention, plot, plt
+from d2l.torch import nn
+from d2l import torch
+from d2l import MultiHeadAttention, plt
 
 # 自注意力
 num_hiddens, num_heads = 100, 5
