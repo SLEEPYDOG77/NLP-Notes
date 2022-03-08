@@ -2,10 +2,12 @@
 import numpy as np
 import pandas as pd
 
+# str.split()
 def tokenization_1(sentence):
     sentence_list = sentence.split()
     print(sentence_list)
 
+# 独热向量 one-hot vectors
 def tokenization_2(sentence):
     token_sequence = str.split(sentence)
     # 词条按照词库顺序进行排序 - 数字排在字母前面，大写字母排在小写字母前面
@@ -32,16 +34,23 @@ def tokenization_2(sentence):
     df[df == 0] = ''
     print(df)
 
+# 词袋向量 - python字典dict存储
 def tokenization_3(sentence):
     sentence_bow = {}
     for token in sentence.split():
         sentence_bow[token] = 1
     print(sorted(sentence_bow.items()))
 
+
+# 词袋向量 - pandas中的Series对象
 def tokenization_4(sentence):
-    df = pd.DataFrame(pd.Series(dict([(token, 1) for token in sentence.split()])), columns=['sent']).T
+    df = pd.DataFrame(
+        pd.Series(dict([(token, 1) for token in sentence.split()])),
+        columns=['sent']
+    ).T
     print(df)
 
+# 词袋向量 - 构建词袋向量的DataFrame
 def tokenization_5(sentence):
     sentence += """Construction was done mostly by local masons and carpenters.\n"""
     sentence += """He moved into the South Pvilion in 1770.\n"""
@@ -53,7 +62,7 @@ def tokenization_5(sentence):
     print(df[df.columns[:10]])
 
 
-
+# 计算句子相似度 - 点积
 def dot():
     v1 = pd.np.array([1, 2, 3])
     v2 = pd.np.array([2, 3, 4])
@@ -61,6 +70,8 @@ def dot():
 
     print((v1 * v2).sum())
 
+# 度量词袋之间的重合度
+# def
 
 if __name__ == "__main__":
     sentence = """Thomas Jefferson began building Monticello at the age of 26."""
@@ -72,7 +83,7 @@ if __name__ == "__main__":
 
     # tokenization_4(sentence=sentence)
 
-    # tokenization_5(sentence=sentence)
+    tokenization_5(sentence=sentence)
 
     # dot()
 

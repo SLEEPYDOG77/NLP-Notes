@@ -1,8 +1,0 @@
-## ACL
-
-
-
-### RE - Relation Extraction
-
-
-
