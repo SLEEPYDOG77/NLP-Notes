@@ -6,7 +6,9 @@
 import collections
 import os
 import tensorflow as tf
-from utils.transformer import TransformerEncoder, TransformerDecoder, EncoderDecoder
+from utils.transformer_encoder import TransformerEncoder
+from utils.transformer_decoder import TransformerDecoder
+from utils.encoder_decoder import EncoderDecoder
 
 def try_gpu(i=0):
     if len(tf.config.experimental.list_logical_devices('GPU')) >= i + 1:
@@ -93,15 +95,21 @@ def get_corpus(tokens, vocab):
     return corpus
 
 def truncate_pad(line, num_steps, padding_token):
+    # 用 <pad> 填充或截断
     if len(line) > num_steps:
         return line[:num_steps]
     return line + [padding_token] * (num_steps - len(line))
 
 def build_array(lines, vocab, num_steps):
+    # 把每一行文本序列转换为数字序列
     lines = [vocab[l] for l in lines]
+    # 在每一行数字序列后添加 <eos>
     lines = [l + [vocab['<eos>']] for l in lines]
+
+    # 构建array
     array = tf.constant([truncate_pad(l, num_steps, vocab['<pad>']) for l in lines])
-    valid_len = tf.reduce_sum(tf.cast(array != vocab['<pad>'], tf.int32), 1)
+    # 获取每一行的有效长度 排除了填充词元
+    valid_len = tf.reduce_sum(tf.cast(array != vocab['<pad>'], tf.int32), axis=1)
     return array, valid_len
 
 def load_array(data_arrays, batch_size, is_train=True):
@@ -114,13 +122,20 @@ def load_array(data_arrays, batch_size, is_train=True):
     dataset = dataset.batch(batch_size)
     return dataset
 
+def train_seq2seq(net, data_iter, lr, num_epochs, tgt_vocab, device):
+
+
 if __name__ == '__main__':
     raw_text = read_data()
+    # 文本预处理
     text = preprocess(raw_text)
+    # 词元化
     source, target = tokenize(text)
+    # 字典
     src_vocab = Vocab(source, min_freq=2, reserved_tokens=['<pad>', '<bos>', '<eos>'])
-    src_corpus = get_corpus(source, src_vocab)
     tgt_vocab = Vocab(target, min_freq=2, reserved_tokens=['<pad>', '<bos>', '<eos>'])
+    # 语料
+    src_corpus = get_corpus(source, src_vocab)
     tgt_corpus = get_corpus(target, tgt_vocab)
 
     num_steps = 10
@@ -130,7 +145,6 @@ if __name__ == '__main__':
     batch_size = 64
     data_arrays = (src_array, src_valid_len, tgt_array, tgt_valid_len)
     train_iter = load_array(data_arrays, batch_size)
-    print('train_iter:', train_iter)
 
     num_hiddens = 32
     num_layers = 2
@@ -157,13 +171,13 @@ if __name__ == '__main__':
     net = EncoderDecoder(encoder, decoder)
     train_seq2seq(net, train_iter, lr, num_ephochs, tgt_vocab, device)
 
-    print('\npredict--------------------')
-    engs = ['go .', "i lost .", 'he\'s calm .', 'i\'m home .']
-    fras = ['va !', 'j\'ai perdu .', 'il est calme .', 'je suis chez moi .']
-    for eng, fra in zip(engs, fras):
-        translation, dec_attention_weight_seq = predict_seq2seq(
-            net, eng, src_vocab, tgt_vocab, num_steps, device, True)
-        print(f'{eng} => {translation}, ',
-              f'bleu {bleu(translation, fra, k=2):.3f}')
-
-    pass
+    # print('\npredict--------------------')
+    # engs = ['go .', "i lost .", 'he\'s calm .', 'i\'m home .']
+    # fras = ['va !', 'j\'ai perdu .', 'il est calme .', 'je suis chez moi .']
+    # for eng, fra in zip(engs, fras):
+    #     translation, dec_attention_weight_seq = predict_seq2seq(
+    #         net, eng, src_vocab, tgt_vocab, num_steps, device, True)
+    #     print(f'{eng} => {translation}, ',
+    #           f'bleu {bleu(translation, fra, k=2):.3f}')
+    #
+    # pass
