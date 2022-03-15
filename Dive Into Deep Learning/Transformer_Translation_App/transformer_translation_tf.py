@@ -10,7 +10,6 @@ from d2l import DATA_URL, DATA_HUB, download_extract
 from d2l import Vocab
 from d2l import try_gpu
 from d2l import load_array
-# from d2l import reduce_sum, astype, int32
 from utils_tf.transformer_decoder_tf import TransformerDecoder
 from utils_tf.transformer_encoder_tf import TransformerEncoder
 from d2l import bleu
