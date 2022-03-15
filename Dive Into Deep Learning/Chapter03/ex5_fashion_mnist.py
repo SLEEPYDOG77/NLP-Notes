@@ -52,8 +52,9 @@ def load_data(batch_size, resize=None):
     )
 
 if __name__ == "__main__":
-    train_iter, test_iter = load_data(batch_size=32, resize=64)
-    for X, y in train_iter:
-        print(X.shape, X.dtype, y.shape, y.dtype)
-        break
+    train_iter, test_iter = load_data(batch_size=256)
+    # for X, y in train_iter:
+    #     print(X.shape, X.dtype, y.shape, y.dtype)
+    #     break
+
 
