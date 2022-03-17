@@ -6,9 +6,14 @@
 
 import tensorflow as tf
 import matplotlib.pyplot as plt
+
+import d2l.tensorflow
 from d2l.tensorflow import Timer
 
-tf.use_svg_display()
+# tf.use_svg_display()
+d2l.tensorflow.use_svg_display()
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL']='2'
 
 def get_fashion_mnist_labels(labels):
     text_labels = ['t-shirt', 'trouser', 'pullover', 'dress', 'coat',
@@ -26,6 +31,7 @@ def show_images(imgs, num_rows, num_cols, titles=None, scale=1.5):
         ax.axes.get_yaxis().set_visible(False)
         if titles:
             ax.set_title(titles[i])
+    plt.show()
     return axes
 
 
@@ -52,9 +58,15 @@ def load_data(batch_size, resize=None):
     )
 
 if __name__ == "__main__":
-    train_iter, test_iter = load_data(batch_size=256)
+    # train_iter, test_iter = load_data(batch_size=256)
     # for X, y in train_iter:
     #     print(X.shape, X.dtype, y.shape, y.dtype)
     #     break
 
+    mnist_train, mnist_test = tf.keras.datasets.fashion_mnist.load_data()
+
+    X = tf.constant(mnist_train[0][:18])
+    y = tf.constant(mnist_train[1][:18])
+    print(get_fashion_mnist_labels(y))
+    show_images(X, 2, 9, titles=get_fashion_mnist_labels(y))
 

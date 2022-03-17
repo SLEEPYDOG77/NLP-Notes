@@ -389,8 +389,8 @@ DATA_HUB['kaggle_house_test'] = (
 def try_gpu(i=0):
     """如果存在，则返回gpu(i)，否则返回cpu()
     Defined in :numref:`sec_use_gpu`"""
-    if len(tf.config.experimental.list_physical_devices('GPU')) >= i + 1:
-        return tf.device(f'/GPU:{i}')
+    # if len(tf.config.experimental.list_physical_devices('GPU')) >= i + 1:
+    #     return tf.device(f'/GPU:{i}')
     return tf.device('/CPU:0')
 
 def try_all_gpus():

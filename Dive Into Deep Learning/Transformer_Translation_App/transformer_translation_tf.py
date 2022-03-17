@@ -132,6 +132,7 @@ if __name__ == "__main__":
 
     net = EncoderDecoder(encoder, decoder)
     train_seq2seq(net, train_iter, lr, num_ephochs, tgt_vocab, device)
+    net.save_weights('my_translation_weight')
 
     print('\npredict--------------------')
     engs = ['go .', "i lost .", 'he\'s calm .', 'i\'m home .']
