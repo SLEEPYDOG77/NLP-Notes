@@ -1,0 +1,98 @@
+E:\anaconda\envs\tensorflow\python.exe "D:/GitHub/NLP-Notes/Dive Into Deep Learning/Transformer_Translation_App/transformer_translation_tf.py"
+2022-03-17 09:17:40.253503: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_101.dll
+2022-03-17 09:18:14.849531: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library nvcuda.dll
+2022-03-17 09:18:14.953456: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1561] Found device 0 with properties: 
+pciBusID: 0000:1d:00.0 name: GeForce RTX 2060 computeCapability: 7.5
+coreClock: 1.68GHz coreCount: 30 deviceMemorySize: 6.00GiB deviceMemoryBandwidth: 312.97GiB/s
+2022-03-17 09:18:14.953630: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_101.dll
+2022-03-17 09:18:15.433559: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_10.dll
+2022-03-17 09:18:15.603124: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_10.dll
+2022-03-17 09:18:15.633099: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_10.dll
+2022-03-17 09:18:15.899797: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_10.dll
+2022-03-17 09:18:16.161418: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_10.dll
+2022-03-17 09:18:16.436473: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2022-03-17 09:18:16.436647: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1703] Adding visible gpu devices: 0
+2022-03-17 09:18:16.496488: I tensorflow/core/platform/cpu_feature_guard.cc:143] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2
+2022-03-17 09:18:16.756598: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x23e63a0e060 initialized for platform Host (this does not guarantee that XLA will be used). Devices:
+2022-03-17 09:18:16.756819: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): Host, Default Version
+2022-03-17 09:18:16.757428: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1561] Found device 0 with properties: 
+pciBusID: 0000:1d:00.0 name: GeForce RTX 2060 computeCapability: 7.5
+coreClock: 1.68GHz coreCount: 30 deviceMemorySize: 6.00GiB deviceMemoryBandwidth: 312.97GiB/s
+2022-03-17 09:18:16.757719: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_101.dll
+2022-03-17 09:18:16.757880: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_10.dll
+2022-03-17 09:18:16.758025: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_10.dll
+2022-03-17 09:18:16.758171: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_10.dll
+2022-03-17 09:18:16.758319: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_10.dll
+2022-03-17 09:18:16.758464: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_10.dll
+2022-03-17 09:18:16.758605: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2022-03-17 09:18:16.758792: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1703] Adding visible gpu devices: 0
+2022-03-17 09:18:24.651885: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1102] Device interconnect StreamExecutor with strength 1 edge matrix:
+2022-03-17 09:18:24.651974: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1108]      0 
+2022-03-17 09:18:24.652030: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1121] 0:   N 
+2022-03-17 09:18:24.670883: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1247] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 4729 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2060, pci bus id: 0000:1d:00.0, compute capability: 7.5)
+2022-03-17 09:18:24.710645: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x23e0c1e76b0 initialized for platform CUDA (this does not guarantee that XLA will be used). Devices:
+2022-03-17 09:18:24.710758: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): GeForce RTX 2060, Compute Capability 7.5
+read_data_nmt---------------
+Go.	Va !
+Hi.	Salut !
+Run!	Cours !
+Run!	Courez !
+Who?	Qui ?
+Wow!	Ça alors !
+
+preprocess_nmt--------------
+go .	va !
+hi .	salut !
+run !	cours !
+run !	courez !
+who ?	qui ?
+wow !	ça alors !
+
+tokenize_nmt----------------
+[['go', '.'], ['hi', '.'], ['run', '!'], ['run', '!'], ['who', '?'], ['wow', '!']]
+[['va', '!'], ['salut', '!'], ['cours', '!'], ['courez', '!'], ['qui', '?'], ['ça', 'alors', '!']]
+
+source vocab----------------
+[('<unk>', 0), ('<pad>', 1), ('<bos>', 2), ('<eos>', 3), ('.', 4), ('i', 5), ('you', 6), ('to', 7), ('the', 8), ('?', 9)]
+1206295 10012
+
+target vocab----------------
+[('<unk>', 0), ('<pad>', 1), ('<bos>', 2), ('<eos>', 3), ('.', 4), ('je', 5), ('de', 6), ('?', 7), ('pas', 8), ('que', 9)]
+1267605 17851
+
+training--------------------
+2022-03-17 09:18:36.652774: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_10.dll
+2022-03-17 09:18:37.337275: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+<Figure size 350x250 with 1 Axes>
+<Figure size 350x250 with 1 Axes>
+<Figure size 350x250 with 1 Axes>
+<Figure size 350x250 with 1 Axes>
+<Figure size 350x250 with 1 Axes>
+<Figure size 350x250 with 1 Axes>
+<Figure size 350x250 with 1 Axes>
+<Figure size 350x250 with 1 Axes>
+<Figure size 350x250 with 1 Axes>
+<Figure size 350x250 with 1 Axes>
+<Figure size 350x250 with 1 Axes>
+<Figure size 350x250 with 1 Axes>
+<Figure size 350x250 with 1 Axes>
+<Figure size 350x250 with 1 Axes>
+<Figure size 350x250 with 1 Axes>
+<Figure size 350x250 with 1 Axes>
+<Figure size 350x250 with 1 Axes>
+<Figure size 350x250 with 1 Axes>
+<Figure size 350x250 with 1 Axes>
+<Figure size 350x250 with 1 Axes>
+loss 0.141, 3802.7 tokens/sec on <tensorflow.python.eager.context._EagerDeviceContext object at 0x0000023E63192488>
+
+predict--------------------
+Traceback (most recent call last):
+  File "D:/GitHub/NLP-Notes/Dive Into Deep Learning/Transformer_Translation_App/transformer_translation_tf.py", line 142, in <module>
+    net, eng, src_vocab, tgt_vocab, num_steps, device, True)
+TypeError: predict_seq2seq() takes from 5 to 6 positional arguments but 7 were given
+Exception ignored in: <function _RandomSeedGeneratorDeleter.__del__ at 0x0000023E3E99FCA8>
+Traceback (most recent call last):
+  File "E:\anaconda\envs\tensorflow\lib\site-packages\tensorflow\python\data\ops\dataset_ops.py", line 3546, in __del__
+AttributeError: 'NoneType' object has no attribute 'device'
+
+Process finished with exit code 1
