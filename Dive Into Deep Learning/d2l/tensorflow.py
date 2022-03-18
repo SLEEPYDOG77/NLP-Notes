@@ -161,7 +161,7 @@ def show_images(imgs, num_rows, num_cols, titles=None, scale=1.5):
     """绘制图像列表
     Defined in :numref:`sec_fashion_mnist`"""
     figsize = (num_cols * scale, num_rows * scale)
-    _, axes = d2l.plt.subplots(num_rows, num_cols, figsize=figsize)
+    _, axes = plt.subplots(num_rows, num_cols, figsize=figsize)
     axes = axes.flatten()
     for i, (ax, img) in enumerate(zip(axes, imgs)):
         ax.imshow(d2l.numpy(img))
@@ -169,6 +169,7 @@ def show_images(imgs, num_rows, num_cols, titles=None, scale=1.5):
         ax.axes.get_yaxis().set_visible(False)
         if titles:
             ax.set_title(titles[i])
+    plt.show()
     return axes
 
 def load_data_fashion_mnist(batch_size, resize=None):

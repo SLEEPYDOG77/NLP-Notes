@@ -94,13 +94,15 @@ def train(net, train_iter, test_iter, loss, num_epochs, updater):
     assert test_acc <= 1 and test_acc > 0.7, test_acc
 
 def predict(net, test_iter, n=6):
+    print('predict')
     for X, y in test_iter:
         break
     trues = d2l.tensorflow.get_fashion_mnist_labels(y)
+    print(trues)
     preds = d2l.tensorflow.get_fashion_mnist_labels(tf.argmax(net(X), axis=1))
+    print(preds)
     titles = [true + '\n' + pred for true, pred in zip(trues, preds)]
-    d2l.tensorflow.show_images(
-        tf.reshape(X[0:n], (n, 28, 28)), 1, n, titles=titles[0:n])
+    d2l.tensorflow.show_images(tf.reshape(X[0:n], (n, 28, 28)), 1, n, titles=titles[0:n])
 
 if __name__ == "__main__":
     train_iter, test_iter = load_data()
@@ -108,5 +110,6 @@ if __name__ == "__main__":
     num_epochs = 10
     train(net, train_iter, test_iter, cross_entropy, num_epochs, updater)
     # net.save_weights('my_image_classifier')
+    print('trained')
     predict(net, test_iter)
 

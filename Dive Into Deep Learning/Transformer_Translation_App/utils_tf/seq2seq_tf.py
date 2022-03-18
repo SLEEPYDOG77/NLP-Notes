@@ -69,8 +69,7 @@ def train_seq2seq(net, data_iter, lr, num_epochs, tgt_vocab, device):
           f'tokens/sec on {str(device)}')
 
 #@save
-def predict_seq2seq(net, src_sentence, src_vocab, tgt_vocab, num_steps,
-                    save_attention_weights=False):
+def predict_seq2seq(net, src_sentence, src_vocab, tgt_vocab, num_steps, save_attention_weights=False):
     """序列到序列模型的预测"""
     src_tokens = src_vocab[src_sentence.lower().split(' ')] + [
         src_vocab['<eos>']]
