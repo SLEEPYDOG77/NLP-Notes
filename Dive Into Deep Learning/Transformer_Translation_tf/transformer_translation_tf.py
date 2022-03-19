@@ -1,18 +1,19 @@
 # -*- coding: utf-8 -*-
-# @Time    : 2022/3/3 19:05
+# @Time    : 2022/3/4 14:29
 # @Author  : Zhang Jiaqi
-# @File    : transformer_translation.py
-# @Description: 基于Transformer的英语-法语翻译
+# @File    : transformer_translation_tf.py
+# @Description: 基于Transformer的英语-法语翻译 - tensorflow
+
 import os.path
-from d2l.torch import nn
+import tensorflow as tf
 from d2l import DATA_URL, DATA_HUB, download_extract
 from d2l import Vocab
 from d2l import try_gpu
 from d2l import load_array
-from d2l import tensor, reduce_sum, astype, int32
-from utils.transformer_encoder import TransformerEncoder
-from utils.transformer_decoder import TransformerDecoder
-from d2l import train_seq2seq, predict_seq2seq, bleu
+from utils_tf.transformer_decoder_tf import TransformerDecoder
+from utils_tf.transformer_encoder_tf import TransformerEncoder
+from d2l import bleu
+from utils_tf.seq2seq_tf import train_seq2seq, predict_seq2seq
 
 # 下载英 - 法数据集
 def read_data_nmt():
@@ -59,25 +60,30 @@ def truncate_pad(line, num_steps, padding_token):
         return line[:num_steps]
     return line + [padding_token] * (num_steps - len(line))
 
+#@save
 def build_array_nmt(lines, vocab, num_steps):
+    """将机器翻译的文本序列转换成小批量"""
     lines = [vocab[l] for l in lines]
     lines = [l + [vocab['<eos>']] for l in lines]
-    array = tensor([truncate_pad(l, num_steps, vocab['<pad>']) for l in lines])
-    valid_len = reduce_sum(astype(array != vocab['<pad>'], int32), 1)
+    array = tf.constant([truncate_pad(
+        l, num_steps, vocab['<pad>']) for l in lines])
+    valid_len = tf.reduce_sum(
+        tf.cast(array != vocab['<pad>'], tf.int32), 1)
     return array, valid_len
 
-class EncoderDecoder(nn.Module):
+class EncoderDecoder(tf.keras.Model):
+    """编码器-解码器架构的基类"""
     def __init__(self, encoder, decoder, **kwargs):
         super(EncoderDecoder, self).__init__(**kwargs)
         self.encoder = encoder
         self.decoder = decoder
 
-    def forward(self, enc_X, dec_X, *args):
-        enc_outputs = self.encoder(enc_X, *args)
+    def call(self, enc_X, dec_X, *args, **kwargs):
+        enc_outputs = self.encoder(enc_X, *args, **kwargs)
         dec_state = self.decoder.init_state(enc_outputs, *args)
-        return self.decoder(dec_X, dec_state)
+        return self.decoder(dec_X, dec_state, **kwargs)
 
-if __name__ == "__main__":
+def train():
     print('read_data_nmt---------------')
     raw_text = read_data_nmt()
     print(raw_text[:75])
@@ -108,7 +114,7 @@ if __name__ == "__main__":
     lr, num_ephochs, device = 0.005, 200, try_gpu()
     ffn_num_input, ffn_num_hiddens, num_heads = 32, 64, 4
     key_size, query_size, value_size = 32, 32, 32
-    norm_shape = [32]
+    norm_shape = [2]
 
     src_array, src_valid_len = build_array_nmt(source, src_vocab, num_steps)
     tgt_array, tgt_valid_len = build_array_nmt(target, tgt_vocab, num_steps)
@@ -118,44 +124,67 @@ if __name__ == "__main__":
     train_iter = data_iter
 
     encoder = TransformerEncoder(
-        len(src_vocab),
-        key_size,
-        query_size,
-        value_size,
-        num_hiddens,
-        norm_shape,
-        ffn_num_input,
-        ffn_num_hiddens,
-        num_heads,
-        num_layers,
-        dropout
-    )
-
+        len(src_vocab), key_size, query_size, value_size, num_hiddens, norm_shape,
+        ffn_num_hiddens, num_heads, num_layers, dropout)
     decoder = TransformerDecoder(
-        len(tgt_vocab),
-        key_size,
-        query_size,
-        value_size,
-        num_hiddens,
-        norm_shape,
-        ffn_num_input,
-        ffn_num_hiddens,
-        num_heads,
-        num_layers,
-        dropout
-    )
+        len(tgt_vocab), key_size, query_size, value_size, num_hiddens, norm_shape,
+        ffn_num_hiddens, num_heads, num_layers, dropout)
 
     net = EncoderDecoder(encoder, decoder)
     train_seq2seq(net, train_iter, lr, num_ephochs, tgt_vocab, device)
+    net.save_weights('my_translation_weight')
+
+def predict():
+    print('read_data_nmt---------------')
+    raw_text = read_data_nmt()
+    # print(raw_text[:75])
+
+    print('preprocess_nmt--------------')
+    text = preprocess_nmt(raw_text)
+    # print(text[:80])
+
+    print('\ntokenize_nmt----------------')
+    source, target = tokenize_nmt(text)
+    print(source[:6])
+    print(target[:6])
+
+    print('\nsource vocab----------------')
+    src_vocab = Vocab(source, min_freq=2, reserved_tokens=['<pad>', '<bos>', '<eos>'])
+
+    print('\ntarget vocab----------------')
+    tgt_vocab = Vocab(target, min_freq=2, reserved_tokens=['<pad>', '<bos>', '<eos>'])
+
+    num_hiddens, num_layers, dropout, batch_size, num_steps = 32, 2, 0.1, 64, 10
+    lr, num_ephochs, device = 0.005, 200, try_gpu()
+    ffn_num_input, ffn_num_hiddens, num_heads = 32, 64, 4
+    key_size, query_size, value_size = 32, 32, 32
+    norm_shape = [2]
+
+    encoder = TransformerEncoder(
+        len(src_vocab), key_size, query_size, value_size, num_hiddens, norm_shape,
+        ffn_num_hiddens, num_heads, num_layers, dropout)
+    decoder = TransformerDecoder(
+        len(tgt_vocab), key_size, query_size, value_size, num_hiddens, norm_shape,
+        ffn_num_hiddens, num_heads, num_layers, dropout)
+
+    net = EncoderDecoder(encoder, decoder)
+    net.load_weights('model/my_translation_weight')
 
     print('\npredict--------------------')
-    engs = ['go .', "i lost .", 'he\'s calm .', 'i\'m home .']
-    fras = ['va !', 'j\'ai perdu .', 'il est calme .', 'je suis chez moi .']
+    # engs = ['go .', "i lost .", 'he\'s calm .', 'i\'m home .']
+    # fras = ['va !', 'j\'ai perdu .', 'il est calme .', 'je suis chez moi .']
+    engs = ['I\'m iron man.']
+    fras = ['']
     for eng, fra in zip(engs, fras):
-        translation, dec_attention_weight_seq = predict_seq2seq(
-            net, eng, src_vocab, tgt_vocab, num_steps, device, True)
+        translation, dec_attention_weight_seq = predict_seq2seq(net=net, src_sentence=eng, src_vocab=src_vocab, tgt_vocab=tgt_vocab, num_steps=num_steps, save_attention_weights=True)
         print(f'{eng} => {translation}, ',
               f'bleu {bleu(translation, fra, k=2):.3f}')
+
+if __name__ == "__main__":
+    predict()
+
+
+
 
 
 
