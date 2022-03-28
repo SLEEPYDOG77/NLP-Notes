@@ -1,3 +1,4 @@
 
 *.gz
 Course/Machine Learning In Action/MLiA_SourceCode/
+Practice/Seq2Seq_Text_Summarization/data/lcsts_data.json
