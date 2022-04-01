@@ -6,13 +6,13 @@
 
 import os.path
 import tensorflow as tf
-from d2l import DATA_URL, DATA_HUB, download_extract
-from d2l import Vocab
-from d2l import try_gpu
-from d2l import load_array
+from d2l.tensorflow import DATA_URL, DATA_HUB, download_extract
+from d2l.tensorflow import Vocab
+from d2l.tensorflow import try_gpu
+from d2l.tensorflow import load_array
 from utils_tf.transformer_decoder_tf import TransformerDecoder
 from utils_tf.transformer_encoder_tf import TransformerEncoder
-from d2l import bleu
+from d2l.tensorflow import bleu
 from utils_tf.seq2seq_tf import train_seq2seq, predict_seq2seq
 
 # 下载英 - 法数据集
@@ -36,7 +36,6 @@ def preprocess_nmt(text):
     out = [' ' + char if i > 0 and no_space(char, text[i - 1]) else char
            for i, char in enumerate(text)]
     return ''.join(out)
-
 
 # 词元化 tokenize
 def tokenize_nmt(text, num_examples=None):
