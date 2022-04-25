@@ -21,12 +21,12 @@ model = tf.keras.models.Sequential([
     tf.keras.layers.Dense(10, activation='softmax')
 ])
 
-print(test_labels[:100])
+# print(test_labels[:100])
 
 f, axarr = plt.subplots(3, 4)
 FIRST_IMAGE = 0
 SECOND_IMAGE = 23
-THIRD_IMAGE = 28
+THIRD_IMAGE = 2
 CONVOLUTION_NUMBER = 1
 
 layer_outputs = [layer.output for layer in model.layers]
