@@ -142,26 +142,28 @@ for layer_name, feature_map in zip(layer_names, successive_feature_maps):
         plt.title(layer_name)
         plt.grid(False)
         plt.imshow(display_grid, aspect='auto', cmap='viridis')
-# plt.show()
+plt.show()
 
 
 acc = history.history['acc']
 val_acc = history.history['val_acc']
-loss = history.history['loss']
-val_loss = history.history['val_loss']
+# loss = history.history['loss']
+# val_loss = history.history['val_loss']
+print(f"acc: {acc}")
+print(f"val_acc: {val_acc}")
 
 epochs = range(len(acc))
 
+plt.figure()
 plt.plot(epochs, acc)
 plt.plot(epochs, val_acc)
 plt.title('Training and validation accuracy')
-
-
-plt.figure()
-
-plt.plot(epochs, loss)
-plt.plot(epochs, val_loss)
-plt.title('Training and validation loss')
 plt.show()
+
+
+# plt.plot(epochs, loss)
+# plt.plot(epochs, val_loss)
+# plt.title('Training and validation loss')
+# plt.show()
 
 
