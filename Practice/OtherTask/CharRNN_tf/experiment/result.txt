@@ -1,0 +1,39 @@
+Configure: 
+model: CharRNN
+epochs: 30
+lr: 0.001
+weight_decay: 0.0001
+text: ../data/chinese_poetry_data/train.txt
+train text length: 20
+predict text length: 50
+
+Epoch: 1, perplexity: 1.9427, lr: 1.0e-03
+Epoch: 2, perplexity: 1.8654, lr: 1.0e-03
+Epoch: 3, perplexity: 1.8475, lr: 1.0e-03
+Epoch: 4, perplexity: 1.8304, lr: 1.0e-03
+Epoch: 5, perplexity: 1.8117, lr: 1.0e-03
+Epoch: 6, perplexity: 1.7847, lr: 1.0e-03
+Epoch: 7, perplexity: 1.7506, lr: 1.0e-03
+Epoch: 8, perplexity: 1.7048, lr: 1.0e-03
+Epoch: 9, perplexity: 1.6475, lr: 1.0e-03
+Epoch: 10, perplexity: 1.5779, lr: 1.0e-03
+Epoch: 11, perplexity: 1.4943, lr: 1.0e-03
+Epoch: 12, perplexity: 1.3970, lr: 1.0e-03
+Epoch: 13, perplexity: 1.2828, lr: 1.0e-03
+Epoch: 14, perplexity: 1.1542, lr: 1.0e-03
+Epoch: 15, perplexity: 1.0108, lr: 1.0e-03
+Epoch: 16, perplexity: 0.8472, lr: 1.0e-03
+Epoch: 17, perplexity: 0.6691, lr: 1.0e-03
+Epoch: 18, perplexity: 0.4753, lr: 1.0e-03
+Epoch: 19, perplexity: 0.2724, lr: 1.0e-03
+Epoch: 20, perplexity: 0.0590, lr: 1.0e-03
+Epoch: 21, perplexity: -0.1566, lr: 1.0e-03
+Epoch: 22, perplexity: -0.3781, lr: 1.0e-03
+Epoch: 23, perplexity: -0.6017, lr: 1.0e-03
+Epoch: 24, perplexity: -0.8062, lr: 1.0e-03
+Epoch: 25, perplexity: -0.9941, lr: 1.0e-03
+Epoch: 26, perplexity: -1.1619, lr: 1.0e-03
+Epoch: 27, perplexity: -1.3040, lr: 1.0e-03
+Epoch: 28, perplexity: -1.4187, lr: 1.0e-03
+Epoch: 29, perplexity: -1.5178, lr: 1.0e-03
+Epoch: 30, perplexity: -1.5898, lr: 1.0e-03
