@@ -1,2 +1,0 @@
-model_checkpoint_path: "my_translation_weight"
-all_model_checkpoint_paths: "my_translation_weight"
